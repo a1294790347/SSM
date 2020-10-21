@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.gmzx.GmzxDao">
+ 	<insert id="addGm" parameterType="Gmzx">
+ 		insert into gmzx ( 
+ 			gmid,yhid,zxid,
+ 			gmjg,gmsj) 
+ 		values(
+ 			seq_gmzx.nextval,#{yhid},
+ 			#{zxid},#{gmjg},#{gmsj})
+ 	</insert>
+ 	
+ 	<update id="updateGm" parameterType="Gmzx">
+ 		update gmzx set 
+ 			yhid = #{yhid}, zxid = #{zxid}, 
+ 			gmjg = #{gmjg}, gmsj = #{gmsj}
+ 		<where>
+ 			gmid = #{gmid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteGm" parameterType="int">
+ 		delete from gmzx
+ 		<where>
+ 			gmid = #{gmid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			gm.yhid "yhid",gm.zxid "zxid",ls.lsmz "lsmz",
+ 			zx.zxmz "zxmz",zx.zxsc "zxsc",zx.zxtp "zxtp",
+ 			yh.yhnc "yhnc",gmid "gmid",gmjg "gmjg",gmsj "gmsj"
+ 			
+ 		from gmzx gm inner join zxb zx on gm.zxid = zx.zxid
+ 		inner join yhb yh on gm.yhid = yh.yhid
+ 		inner join lsb ls on zx.lsid = ls.lsid
+
+ 	</select>
+ 	<select id="getListByName" parameterType="Gmzx" resultType="map">
+ 		select 
+ 			gm.yhid "yhid",gm.zxid "zxid",ls.lsmz "lsmz",
+ 			zx.zxmz "zxmz",zx.zxsc "zxsc",zx.zxtp "zxtp",
+ 			yh.yhnc "yhnc",gmid "gmid",gmjg "gmjg",gmsj "gmsj"
+ 			
+ 		from gmzx gm inner join zxb zx on gm.zxid = zx.zxid
+ 		inner join yhb yh on gm.yhid = yh.yhid
+ 		inner join lsb ls on zx.lsid = ls.lsid
+		<where>
+			<if test="yhid != null and yhid != ''">
+				gm.yhid = #{yhid}
+			</if>
+			<if test="zxid != null and zxid != ''">
+				and gm.zxid = #{zxid}
+			</if>
+			
+		</where>
+ 	</select>
+ 	<select id="gmjl" resultType="map">
+ 		select 
+ 			gm.yhid "yhid",gm.zxid "zxid",ls.lsmz "lsmz",
+ 			zx.zxmz "zxmz",zx.zxsc "zxsc",zx.zxtp "zxtp",
+ 			yh.yhnc "yhnc",gmid "gmid",gmjg "gmjg",gmsj "gmsj"
+ 			
+ 		from gmzx gm inner join zxb zx on gm.zxid = zx.zxid
+ 		inner join yhb yh on gm.yhid = yh.yhid
+ 		inner join lsb ls on zx.lsid = ls.lsid
+		
+ 	</select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.bj.BjbDao">
+ 	<insert id="addBj" parameterType="Bjb">
+ 		insert into bjb ( 
+ 			bjid,bjmz,bjks,bjtp,
+ 			bjjh,bjkm,bjnj,bjlb) 
+ 		values(
+ 			seq_bjb.nextval,#{bjmz},
+ 			#{bjks},#{bjtp},#{bjjh},
+ 			#{bjkm},#{bjnj},#{bjlb})
+ 	</insert>
+ 	
+ 	<update id="updateBj" parameterType="Bjb">
+ 		update bjb set 
+ 			bjmz = #{bjmz}, bjks = #{bjks}, bjtp = #{bjtp},
+ 			bjjh = #{bjjh}, bjkm = #{bjkm}, bjnj = #{bjnj}, bjlb = #{bjlb}
+ 		<where>
+ 			bjid = #{bjid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteBj" parameterType="int">
+ 		delete from bjb
+ 		<where>
+ 			bjid = #{bjid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			bjid "bjid",bjmz "bjmz",bjks "bjks",bjtp "bjtp",
+ 			bjjh "bjjh",bjkm "bjkm",bjnj "bjnj",bjlb "bjlb"
+ 		from bjb
+
+ 	</select>
+ 	<select id="getListByName" resultType="map">
+ 		select 
+ 			bjid "bjid",bjmz "bjmz",bjks "bjks",bjtp "bjtp",
+ 			bjjh "bjjh",bjkm "bjkm",bjnj "bjnj",bjlb "bjlb"
+ 		from bjb
+		<where>
+			<if test="bjmz != null and bjmz != ''">
+				bjmz like '%' || #{bjmz} || '%'
+			</if>
+			<if test="bjnj != null and bjnj != ''">
+				and bjnj like '%' || #{bjnj} || '%'
+			</if>
+		</where>
+ 	</select>
+ 	<select id="getList2" resultType="map">
+ 		select 
+ 			bjid "bjid",bjkm "bjkm"
+ 		from bjb
+ 	</select>
+</mapper>

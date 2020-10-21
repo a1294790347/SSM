@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.yh.YhbDao">
+ 	<insert id="addYh" parameterType="Yhb">
+ 		insert into yhb ( 
+ 			yhid,yhyx,yhmm,
+ 			yhdh,yhnc) 
+ 		values(
+ 			seq_yhb.nextval,#{yhyx},#{yhmm},
+ 			#{yhdh},#{yhnc})
+ 	</insert>
+ 	
+ 	<update id="updateYh" parameterType="Yhb">
+ 		update yhb set 
+ 			yhyx = #{yhyx}, yhmm = #{yhmm}, yhdh = #{yhdh},
+ 			yhnc = #{yhnc}
+ 		<where>
+ 			yhid = #{yhid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteYh" parameterType="int">
+ 		delete from yhb
+ 		<where>
+ 			yhid = #{yhid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			yhid "yhid",yhyx "yhyx",yhmm "yhmm",
+ 			yhdh "yhdh",yhnc "yhnc"
+ 		from yhb
+
+ 	</select>
+ 	<select id="getListByName" resultType="map">
+ 		select 
+ 			yhid "yhid",yhyx "yhyx",yhmm "yhmm",
+ 			yhdh "yhdh",yhnc "yhnc"
+ 		from yhb
+		<where>
+			<if test="yhnc != null and yhnc != ''">
+				yhnc like '%' || #{yhnc} || '%'
+			</if>
+			<if test="yhyx != null and yhyx != ''">
+				and yhyx like '%' || #{yhyx} || '%'
+			</if>
+			<!-- <if test="xwnj != null and xwnj != ''">
+				and xwnj like CONCAT(CONCAT("%",#{xwnj}),"%")
+				yhnc = #{yhnc} and yhyx = #{yhyx}
+			</if> -->
+			
+		</where>
+ 	</select>
+ 	<select id="getList2" resultType="map">
+ 		select 
+ 			yhid "yhid",yhnc "yhnc"
+ 		from yhb
+ 	</select>
+ 	<select id="isExsit" parameterType="String" resultType="int">
+ 		select 
+ 			count(1)
+ 		from yhb
+ 		<where>
+ 			yhnc = #{yhnc}
+ 		</where>
+ 	</select>
+ 	<select id="loginYh" parameterType="Yhb" resultType="Yhb">
+ 		select 
+ 			*
+ 		from yhb
+ 		<where>
+ 			yhnc = #{yhnc} and yhmm = #{yhmm}
+ 		</where>
+ 	</select>
+</mapper>

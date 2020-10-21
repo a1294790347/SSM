@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.xw.XwbDao">
+ 	<insert id="addXw" parameterType="Xwb">
+ 		insert into xwb ( 
+ 			xwid,xwbt,xwnr,
+ 			xwsj,xwzz,xwlb) 
+ 		values(
+ 			seq_xwb.nextval,#{xwbt},#{xwnr},
+ 			#{xwsj},#{xwzz},#{xwlb})
+ 	</insert>
+ 	
+ 	<update id="updateXw" parameterType="Xwb">
+ 		update xwb set 
+ 			xwbt = #{xwbt}, xwnr = #{xwnr}, xwsj = #{xwsj},
+ 			xwzz = #{xwzz}, xwlb = #{xwlb}
+ 		<where>
+ 			xwid = #{xwid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteXw" parameterType="int">
+ 		delete from xwb
+ 		<where>
+ 			xwid = #{xwid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			xwid "xwid",xwbt "xwbt",xwnr "xwnr",
+ 			xwsj "xwsj",xwzz "xwzz",xwlb "xwlb"
+ 		from xwb
+
+ 	</select>
+ 	<select id="getListByName" resultType="map">
+ 		select 
+ 			xwid "xwid",xwbt "xwbt",xwnr "xwnr",
+ 			xwsj "xwsj",xwzz "xwzz",xwlb "xwlb"
+ 		from xwb
+		<where>
+			<if test="xwzz != null and xwzz != ''">
+				xwzz like '%' || #{xwzz} || '%'
+			</if>
+			<if test="xwlb != null and xwlb != ''">
+				and xwlb like '%' || #{xwlb} || '%'
+			</if>
+		</where>
+ 	</select>
+</mapper>

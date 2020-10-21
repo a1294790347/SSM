@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ls.LsbDao">
+ 	<insert id="addLs" parameterType="Lsb">
+ 		insert into lsb ( 
+ 			lsid,lsmz,lsnj,lsxk,
+ 			lsjj,lstp,lsfc) 
+ 		values(
+ 			seq_lsb.nextval,#{lsmz},
+ 			#{lsnj},#{lsxk},#{lsjj},
+ 			#{lstp},#{lsfc})
+ 	</insert>
+ 	
+ 	<update id="updateLs" parameterType="Lsb">
+ 		update lsb set 
+ 			lsmz = #{lsmz}, lsnj = #{lsnj}, lsxk = #{lsxk},
+ 			lsjj = #{lsjj}, lstp = #{lstp}, lsfc = #{lsfc}
+ 		<where>
+ 			lsid = #{lsid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteLs" parameterType="int">
+ 		delete from lsb
+ 		<where>
+ 			lsid = #{lsid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			lsid "lsid",lsmz "lsmz",lsnj "lsnj",lsxk "lsxk",
+ 			lsjj "lsjj",lstp "lstp",lsfc "lsfc"
+ 		from lsb
+
+ 	</select>
+ 	<select id="getListByName" resultType="map">
+ 		select 
+ 			lsid "lsid",lsmz "lsmz",lsnj "lsnj",lsxk "lsxk",
+ 			lsjj "lsjj",lstp "lstp",lsfc "lsfc"
+ 		from lsb
+		<where>
+			<if test="lsmz != null and lsmz != ''">
+				lsmz like '%' || #{lsmz} || '%'
+			</if>
+			<if test="lsnj != null and lsnj != ''">
+				and lsnj like '%' || #{lsnj} || '%'
+			</if>
+			
+		</where>
+ 	</select>
+ 	<select id="getList2" resultType="map">
+ 		select 
+ 			lsid "lsid",lsmz "lsmz"
+ 		from lsb
+
+ 	</select>
+</mapper>

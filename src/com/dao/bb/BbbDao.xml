@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.bb.BbbDao">
+ 	<insert id="addBb" parameterType="Bbb">
+ 		insert into bbb ( 
+ 			bbid,yhid,bcid,
+ 			bbjg,bbsj) 
+ 		values(
+ 			seq_bbb.nextval,#{yhid},
+ 			#{bcid},#{bbjg},#{bbsj})
+ 	</insert>
+ 	
+ 	<update id="updateBb" parameterType="Bbb">
+ 		update bbb set 
+ 			yhid = #{yhid}, bcid = #{bcid}, 
+ 			bbjg = #{bbjg}, bbsj = #{bbsj}
+ 		<where>
+ 			bbid = #{bbid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteBb" parameterType="int">
+ 		delete from bbb
+ 		<where>
+ 			bbid = #{bbid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			bb.yhid "yhid",bb.bcid "bcid",
+ 			yh.yhnc "yhnc",bc.bczt "bczt",
+ 			bbid "bbid",bbjg "bbjg",bbsj "bbsj"
+ 			
+ 		from bbb bb inner join bcb bc on bb.bcid = bc.bcid
+ 		inner join yhb yh on bb.yhid = yh.yhid
+
+ 	</select>
+ 	<select id="getListByName" parameterType="Bbb" resultType="map">
+ 		select 
+ 			bb.yhid "yhid",bb.bcid "bcid",
+ 			yh.yhnc "yhnc",bc.bczt "bczt",
+ 			bbid "bbid",bbjg "bbjg",bbsj "bbsj"
+ 			
+ 		from bbb bb inner join bcb bc on bb.bcid = bc.bcid
+ 		inner join yhb yh on bb.yhid = yh.yhid
+		<where>
+			<if test="yhid != null and yhid != ''">
+				bb.yhid = #{yhid}
+			</if>
+			<if test="bcid != null and bcid != ''">
+				and bb.bcid = #{bcid}
+			</if>
+			
+		</where>
+ 	</select>
+ 	<select id="jpxb" resultType="map">
+ 		select 
+ 			bc.bjid "bjid",bb.yhid "yhid",ls.lsmz "lsmz",
+ 			xq.xqdz "xqdz",bj.bjmz "bjmz",bj.bjks "bjks",
+ 			bj.bjtp "bjtp",bc.lsid "lsid",bc.xqid "xqid",
+ 			bc.bcid "bcid",bc.bcsk "bcsk",bc.bckk "bckk",
+ 			bc.bcbm "bcbm",bc.bczk "bczk"
+ 			
+ 		from bbb bb inner join bcb bc on bc.bcid = bb.bcid
+ 		inner join lsb ls on ls.lsid = bc.lsid
+ 		inner join xqb xq on xq.xqid = bc.xqid
+ 		inner join bjb bj on bj.bjid = bc.bjid
+ 	</select>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.zx.ZxbDao">
+ 	<insert id="addZx" parameterType="Zxb">
+ 		insert into zxb ( 
+ 			zxid,zxmz,zxsc,zxtp,
+ 			zxjg,zxjj,lsid) 
+ 		values(
+ 			seq_zxb.nextval,#{zxmz},
+ 			#{zxsc},#{zxtp},#{zxjg},
+ 			#{zxjj},#{lsid})
+ 	</insert>
+ 	
+ 	<update id="updateZx" parameterType="Zxb">
+ 		update zxb set 
+ 			zxmz = #{zxmz}, zxsc = #{zxsc}, zxtp = #{zxtp},
+ 			zxjg = #{zxjg}, zxjj = #{zxjj}, lsid = #{lsid}
+ 		<where>
+ 			zxid = #{zxid}
+ 		</where>
+ 	</update>
+ 	
+ 	<delete id="deleteZx" parameterType="int">
+ 		delete from zxb
+ 		<where>
+ 			zxid = #{zxid}
+ 		</where>
+ 	</delete>
+ 	
+ 		<select id="getList" resultType="map">
+ 		select 
+ 			zx.lsid "lsid",ls.lsmz "lsmz",
+ 			zxid "zxid",zxmz "zxmz",zxsc "zxsc",
+ 			zxtp "zxtp",zxjg "zxjg",zxjj "zxjj"
+ 			
+ 		from zxb zx inner join lsb ls on zx.lsid = ls.lsid
+
+ 	</select>
+ 	<select id="getListByName" parameterType="Zxb" resultType="map">
+ 		select 
+ 			zx.lsid "lsid",ls.lsmz "lsmz",
+ 			zxid "zxid",zxmz "zxmz",zxsc "zxsc",
+ 			zxtp "zxtp",zxjg "zxjg",zxjj "zxjj"
+ 			
+ 		from zxb zx inner join lsb ls on zx.lsid = ls.lsid
+		<where>
+			<if test="lsid != null and lsid != ''">
+				zx.lsid = #{lsid}
+			</if>
+			
+		</where>
+ 	</select>
+ 	<select id="getList2" resultType="map">
+ 		select 
+ 			zxid "zxid",zxmz "zxmz",zxsc "zxsc",zxtp "zxtp"
+ 		from zxb
+
+ 	</select>
+</mapper>

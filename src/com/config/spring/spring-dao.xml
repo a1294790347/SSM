@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 加载数据库相关的参数 -->
+	<context:property-placeholder location="classpath:com/config/jdbc/jdbc.properties" />
+	<!-- 数据源的配置：使用dbcp连接数据库 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="10"></property>
+	</bean>
+	<!-- 配置SqlSessionFactory对象 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:com/config/mybatis/mybatis-config.xml"/>
+		<property name="typeAliasesPackage" value="com.bean" />
+		<property name="mapperLocations" value="classpath:com/dao/*.xml" />
+	</bean>
+	<!-- 扫描dao层 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="basePackage" value="com.dao" />
+	</bean>
+	<context:component-scan base-package="com.util" />
+</beans>

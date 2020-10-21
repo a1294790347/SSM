@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.bc.BcbDao">
+ 	<insert id="addBc" parameterType="Bcb">
+ 		insert into bcb ( 
+ 			bcid,bjid,lsid,xqid,
+ 			bcyj,bczk,bczt,bcsk,
+ 			bckk,bcbm,bcsx,bcrs) 
+ 		values(
+ 			seq_bbb.nextval,#{bjid},#{lsid},#{xqid},
+ 			#{bcyj},#{bczk},#{bczt},#{bcsk},
+ 			#{bckk},#{bcbm},#{bcsx},#{bcrs})
+ 	</insert>
+ 	
+ 	<update id="updateBc" parameterType="Bcb">
+ 		update bcb set 
+ 			bjid = #{bjid}, lsid = #{lsid}, xqid = #{xqid},
+ 			bcyj = #{bcyj}, bczk = #{bczk}, bczt = #{bczt}, 
+ 			bcsk = #{bcsk}, bckk = #{bckk}, bcbm = #{bcbm}, 
+ 			bcsx = #{bcsx}, bcrs = #{bcrs}
+ 		<where>
+ 			bcid = #{bcid}
+ 		</where>
+ 	</update>
+ 	<update id="xgrs" parameterType="int">
+ 		update bcb set 
+ 			bcrs = bcrs + 1
+ 		<where>
+ 			bcid = #{bcid}
+ 		</where>
+ 	</update>
+ 	<delete id="deleteBc" parameterType="int">
+ 		delete from bcb
+ 		<where>
+ 			bcid = #{bcid}
+ 		</where>
+ 	</delete>
+ 	
+ 	<select id="getList" resultType="map">
+ 		select 
+ 			bc.bjid "bjid",bc.lsid "lsid",bc.xqid "xqid",
+ 			ls.lsmz "lsmz",bj.bjkm "bjkm",xq.xqmz "xqmz",
+ 			bcid "bcid",bcyj "bcyj",bczk "bczk",
+ 			bcsk "bcsk",bckk "bckk",bcbm "bcbm",
+ 			bcsx "bcsx",bcrs "bcrs",bczt "bczt"
+ 		from bcb bc inner join bjb bj on bj.bjid = bc.bjid
+ 		inner join lsb ls on ls.lsid = bc.lsid
+ 		inner join xqb xq on xq.xqid = bc.xqid
+ 		
+ 	</select>
+ 	<select id="getListByName" parameterType="Bcb" resultType="map">
+ 		select 
+ 			bc.bjid "bjid",bc.lsid "lsid",bc.xqid "xqid",
+ 			ls.lsmz "lsmz",bj.bjkm "bjkm",xq.xqmz "xqmz",
+ 			bcid "bcid",bcyj "bcyj",bczk "bczk",
+ 			bcsk "bcsk",bckk "bckk",bcbm "bcbm",
+ 			bcsx "bcsx",bcrs "bcrs",bczt "bczt"
+ 		from bcb bc inner join bjb bj on bj.bjid = bc.bjid
+ 		inner join lsb ls on ls.lsid = bc.lsid
+ 		inner join xqb xq on xq.xqid = bc.xqid
+		<where>
+			<if test="bjid != null and bjid != ''">
+				bc.bjid = #{bjid}
+			</if>
+			<if test="lsid != null and lsid != ''">
+				and bc.lsid = #{lsid}
+			</if>
+			<if test="xqid != null and xqid != ''">
+				and bc.xqid = #{xqid}
+			</if>
+		</where>
+ 	</select>
+ 	<select id="getList2" resultType="map">
+ 		select 
+ 			bcid "bcid",bczt "bczt"
+ 		from bcb
+ 	</select>
+ 	<select id="jpxb" resultType="map">
+ 		select 
+ 			bc.bjid "bjid",bc.lsid "lsid",bc.xqid "xqid",
+ 			ls.lsmz "lsmz",bj.bjmz "bjmz",xq.xqdz "xqdz",
+ 			bcid "bcid",bj.bjks "bjks",bj.bjtp "bjtp",
+ 			bcsk "bcsk",bckk "bckk",bcbm "bcbm",bczk "bczk",
+ 			(bcsx-bcrs) "syrs"
+ 		from bcb bc inner join bjb bj on bj.bjid = bc.bjid
+ 		inner join lsb ls on ls.lsid = bc.lsid
+ 		inner join xqb xq on xq.xqid = bc.xqid
+ 		
+ 	</select>
+</mapper>
